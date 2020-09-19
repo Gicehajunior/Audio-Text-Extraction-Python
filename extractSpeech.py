@@ -1,12 +1,13 @@
 # from library
 import speech_recognition
 import moviepy.editor as moviepy
+import librosa 
 import os
 
 class SpeechExtraction:
     VideoClipFile = ""
     ConvertedClipFile = "converted.wav"
-    audio_path = "converted.wav"
+    audio_path = "converted.wav" #By default
     clip = ""
     audio = ""
     result = ""
@@ -29,8 +30,12 @@ class SpeechExtraction:
     def convertVideoCliptoMp3(self):
         self.clip = moviepy.VideoFileClip(self.VideoClipFile) 
         
-        self.clip.audio.write_audiofile(self.audio_path)
-        
+        if os.path.exists(self.audio_path):
+            os.remove(self.audio_path)
+            self.clip.audio.write_audiofile(self.audio_path)
+        else:
+            self.clip.audio.write_audiofile(self.audio_path)
+            
         return self.clip
 
     ####
@@ -42,7 +47,8 @@ class SpeechExtraction:
         self.audio = speech_recognition.AudioFile(self.audio_path)
 
         with self.audio as source:
-            audio_file = recognizer.record(source)
+            duration = librosa.get_duration(filename=self.audio_path)  
+            audio_file = recognizer.record(source, duration=duration)
             
         self.result = recognizer.recognize_google(audio_file)
         
@@ -53,7 +59,7 @@ class SpeechExtraction:
     # Exports audio text to a file.
     ####
     def exportAudioTextToTextFile(self):
-        self.result = recognizeAudio()
+        self.result = self.recognizeAudio()
         self.recognized_text_file = "recognized.txt"
         
         if os.path.exists(self.recognized_text_file):
