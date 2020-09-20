@@ -7,7 +7,7 @@ Speech extraction from video clips using, moviepy and speech_recognition library
   - speech_recognition
   - librosa
       #### Procedures for getting started:
-        1) git clone https://github.com/Gicehajunior/Audio-Text-Extraction-Python
+        1) git clone https://github.com/Gicehajunior/speech-extraction-python
         2) open powershell, navigate to the project folder.
         3) paste/download a video clip to the root of the project.
         4) open app.py file and use your video clip file as the "videoClip" to perform speech extraction.
